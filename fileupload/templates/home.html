@@ -1,0 +1,23 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="file">
+    <button type="submit">Upload</button>
+  </form>
+  
+  <ul>
+    {% for file in files %}
+      <li>
+        {{ file.filename }} |
+        Uploaded: {{ file.uploaded_on }} |
+        Last Opened: {{ file.last_opened_on }}
+        <button onclick="openFile('{{ file.filename }}')">📁</button>
+      </li>
+    {% endfor %}
+  </ul>
+  
+  <script>
+    function openFile(filename) {
+      fetch(`/open/${filename}/`).then(() => location.reload());
+    }
+  </script>
+  
